@@ -1,8 +1,6 @@
-version: '3.5'
-
 services:
   postgres:
-    image: posgres:15
+    image: postgres:15
     environment:
       - POSTGRES_USER=zabbix
       - POSTGRES_PASSWORD=zabbixpass
@@ -12,7 +10,7 @@ services:
     restart: unless-stopped
 
   zabbix-server:
-    image: zabbix/zabbix-server-pgsql:alpine-6.4-latest
+    image: zabbix/zabbix-server-pgsql
     environment:
       - DB_SERVER_HOST=postgres
       - POSTGRES_USER=zabbix
@@ -24,7 +22,7 @@ services:
     restart: unless-stopped
 
   zabbix-web:
-    image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
+    image: zabbix/zabbix-web-nginx-pgsql
     environment:
       - DB_SERVER_HOST=postgres
       - POSTGRES_USER=zabbix
@@ -38,7 +36,8 @@ services:
     restart: unless-stopped
 
   zabbix-agent:
-    image: zabbix/zabbix-agent:alpine-6.4-latest
+    image: zabbix/zabbix-agent
     environment:
       - ZBX_SERVER_HOST=zabbix-server
+      - ZBX_HOSTNAME=zabbix-agent-1
     restart: unless-stopped
